@@ -14,7 +14,24 @@ class BookService implements BookServiceInterface
         $this->bookRepository=$bookRepository;
     }
     public function getAllBooks(){
-//        dd($this->bookRepository);
         return $this->bookRepository->getAllBooks();
+    }
+
+    public function getBookById($id)
+    {
+        return $this->bookRepository->getBookById($id);
+    }
+
+    public function createNewBook($title,$isbn,$authorId,$description,$language)
+    {
+        return $this->bookRepository->createNewBook($title,$isbn,$authorId,$description,$language);
+    }
+
+    public function updateBook($id,$title,$isbn,$authorId,$description,$language)
+    {
+        return $this->bookRepository->updateBook($id,$title,$isbn,$authorId,$description,$language);
+    }
+    public function deleteBook($id){
+        return $this->bookRepository->deleteBook($id);
     }
 }

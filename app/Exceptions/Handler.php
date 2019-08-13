@@ -2,9 +2,10 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Book\BookNotDeletedException;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-
+use App\Exceptions\Book\BookNotFoundException;
 class Handler extends ExceptionHandler
 {
     /**
@@ -46,6 +47,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        switch ($exception){
+            case $exception instanceof BookNotFoundException:
+                return $exception->render($request);
+                break;
+            case  $exception instanceof BookNotDeletedException:
+                return $exception->render($request);
+                break;
+            default :
+                return parent::render($request, $exception);
+        }
     }
 }

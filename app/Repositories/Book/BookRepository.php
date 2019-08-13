@@ -18,18 +18,30 @@ class BookRepository implements BookRepositoryInterface
         return Book::find($id);
     }
 
-    public function createNewBook($bookData)
+    public function createNewBook($title,$isbn,$authorId,$description,$language)
     {
-        return Book::create($bookData);
+            return Book::create([
+                'title'=> $title,
+                'description'=>$description,
+                'author_id'=>$authorId,
+                'language_id'=>$language,
+                'isbn'=>$isbn
+            ]);
     }
 
     public function deleteBook($id){
         return Book::destroy($id);
     }
 
-    public function updateBook($bookData,$id){
+    public function updateBook($id,$title,$isbn,$authorId,$description,$language){
         return Book::where('id',$id)
-            ->update($bookData);
+            ->update([
+                'title'=> $title,
+                'description'=>$description,
+                'author_id'=>$authorId,
+                'language_id'=>$language,
+                'isbn'=>$isbn
+            ]);
     }
 
 }

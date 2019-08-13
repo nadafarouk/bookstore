@@ -17,16 +17,14 @@ class BookServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('App\Repositories\Book\BookRepositoryInterface', 'App\Repositories\Book\BookRepository');
-//        $this->app->bind(BookServiceInterface::class, BookControllerService::class);
-//        $this->app->bind(BookServiceInterface::class, BookService::class);
 
-        $this->app->when('App\Http\Controllers\Item\BookController@index')
-            ->needs('App\Services\Book\BookServiceInterface')
-            ->give('App\Services\Book\BookControllerService');
+        $this->app->when(BookController::class)
+            ->needs(BookServiceInterface::class)
+            ->give(BookControllerService::class);
 
-        $this->app->when('App\Services\Book\BookControllerService')
-            ->needs('App\Services\Book\BookServiceInterface')
-            ->give('App\Services\Book\BookService');
+        $this->app->when(BookControllerService::class)
+            ->needs(BookServiceInterface::class)
+            ->give(BookService::class);
     }
 
     /**
