@@ -178,7 +178,9 @@ return [
         /*
          * App customized providers
          * **/
+        Laravel\Passport\PassportServiceProvider::class,
         App\Providers\BookServiceProvider::class,
+        App\Providers\UserServiceProvider::class,
     ],
 
     /*

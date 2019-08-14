@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use App\Exceptions\Book\BookNotDeletedException;
+use App\Exceptions\User\InvalidUserToken;
+use App\Exceptions\User\UserNotCreatedException;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use App\Exceptions\Book\BookNotFoundException;
@@ -52,6 +54,12 @@ class Handler extends ExceptionHandler
                 return $exception->render($request);
                 break;
             case  $exception instanceof BookNotDeletedException:
+                return $exception->render($request);
+                break;
+            case  $exception instanceof UserNotCreatedException:
+                return $exception->render($request);
+                break;
+            case  $exception instanceof InvalidUserToken:
                 return $exception->render($request);
                 break;
             default :

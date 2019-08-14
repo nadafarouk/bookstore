@@ -13,13 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
+Route::post('users', 'User\UserController@createUser');
+Route::get('users/verify/{token}','User\UserController@verifyUser');
     /*
      * Book CRUD routes
      */
+
 Route::get('books','Item\BookController@index');
 Route::get('books/{id}','Item\BookController@show');
 Route::post('books','Item\BookController@store');
