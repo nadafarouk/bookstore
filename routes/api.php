@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 Route::post('users', 'User\UserController@createUser');
 Route::get('users/verify/{token}','User\UserController@verifyUser');
 
+
+
 /*
  * Password Reset routes
  * **/
@@ -24,12 +26,16 @@ Route::post('users/password','User\UserController@requestPasswordReset');
 Route::get('users/password/{token}','User\UserController@verifyPasswordResetToken');
 Route::post('users/password/{token}','User\UserController@resetPassword');
 
-/*
- * Book CRUD routes
- */
 
-Route::get('books','Item\BookController@index');
-Route::get('books/{id}','Item\BookController@show');
-Route::post('books','Item\BookController@store');
-Route::delete('books/{id}','Item\BookController@delete');
-Route::post('books/{id}','Item\BookController@update');
+Route::group(['middleware' => 'auth:api'], function () {
+    /*
+     * Book CRUD routes
+     */
+    Route::get('books','Item\BookController@index')->middleware('permission:read');
+    Route::get('books/{id}','Item\BookController@show')->middleware('permission:read');
+    Route::post('books','Item\BookController@store')->middleware('permission:write');
+    Route::delete('books/{id}','Item\BookController@delete')->middleware('permission:delete');
+    Route::post('books/{id}','Item\BookController@update')->middleware('permission:update');
+
+});
+

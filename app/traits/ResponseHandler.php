@@ -15,4 +15,8 @@ trait ResponseHandler
     {
         return $this->generateResponse(['success'=>'email sent successfully'],200);
     }
+    public function generateUnauthorizedResponse()
+    {
+        return $this->generateResponse(['error'=>'unauthorized user'],401);
+    }
 }

@@ -8,8 +8,11 @@ use App\Exceptions\User\UserNotCreatedException;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use App\Exceptions\Book\BookNotFoundException;
+use Spatie\Permission\Exceptions\UnauthorizedException;
+use App\traits\ResponseHandler;
 class Handler extends ExceptionHandler
 {
+    use ResponseHandler;
     /**
      * A list of the exception types that are not reported.
      *
@@ -61,6 +64,9 @@ class Handler extends ExceptionHandler
                 break;
             case  $exception instanceof InvalidUserToken:
                 return $exception->render($request);
+                break;
+            case $exception instanceof UnauthorizedException:
+                return $this->generateUnauthorizedResponse();
                 break;
             default :
                 return parent::render($request, $exception);
