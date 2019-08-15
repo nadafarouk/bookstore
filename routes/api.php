@@ -15,9 +15,18 @@ use Illuminate\Http\Request;
 
 Route::post('users', 'User\UserController@createUser');
 Route::get('users/verify/{token}','User\UserController@verifyUser');
-    /*
-     * Book CRUD routes
-     */
+
+/*
+ * Password Reset routes
+ * **/
+
+Route::post('users/password','User\UserController@requestPasswordReset');
+Route::get('users/password/{token}','User\UserController@verifyPasswordResetToken');
+Route::post('users/password/{token}','User\UserController@resetPassword');
+
+/*
+ * Book CRUD routes
+ */
 
 Route::get('books','Item\BookController@index');
 Route::get('books/{id}','Item\BookController@show');

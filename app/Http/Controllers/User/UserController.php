@@ -26,4 +26,18 @@ class UserController extends Controller
         return $this->userService->activateUserAccount($token);
     }
 
+    public function requestPasswordReset(Request $request)
+    {
+        return $this->userService->sendPasswordReset($request['email']);
+    }
+
+    public function verifyPasswordResetToken($token)
+    {
+        return $this->userService->verifyPasswordResetToken($token);
+    }
+
+    public function resetPassword(Request $request,$token){
+        return $this->userService->resetUserPassword($request['email'],$request['password'],$token);
+    }
+
 }

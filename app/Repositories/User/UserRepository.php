@@ -4,8 +4,10 @@
 namespace App\Repositories\User;
 
 
+use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -16,13 +18,6 @@ class UserRepository implements UserRepositoryInterface
             'email'=> $email,
             'password'=> $password,
             'activation_token'=>$activationToken
-        ]);
-    }
-    public function authenticateUser($email,$password)
-    {
-        return Auth::attempt([
-            'email'=> $email,
-            'password'=>$password
         ]);
     }
 
@@ -38,4 +33,28 @@ class UserRepository implements UserRepositoryInterface
         return User::where('activation_token',$token)->first();
     }
 
+    public function getPasswordResetByToken($token){
+        return PasswordReset::where('token',$token)->first();
+    }
+
+    public function createPasswordReset($email)
+    {
+        return PasswordReset::create(['email'=>$email,'token'=> Str::random(100)]);
+
+    }
+    public function activateUserAccount($user)
+    {
+        $user->active=true;
+        $user->activation_token='';
+        $user->save();
+        return $user;
+    }
+
+    public function updateUserPassword($user,$password)
+    {
+        $password=bcrypt($password);
+        $user->password=$password;
+        $user->save;
+        return $user;
+    }
 }

@@ -11,4 +11,8 @@ trait ResponseHandler
         return response()->json($responseArray,$statusCode);
     }
 
+    public function generateEmailSentResponse()
+    {
+        return $this->generateResponse(['success'=>'email sent successfully'],200);
+    }
 }

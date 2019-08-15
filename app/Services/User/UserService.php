@@ -39,13 +39,22 @@ class UserService implements UserServiceInterface
 
     public function activateUserAccount($user)
     {
-        $user->active=true;
-        $user->activation_token='';
-        $user->save();
-        return $user;
+        return $this->userRepository->activateUserAccount($user);
     }
 
-    public function welcomeUser($user){}
+    public function createPasswordReset($email){
+        return $this->userRepository->createPasswordReset($email);
+    }
+
+    public function verifyPasswordResetToken($token)
+    {
+        return $this->userRepository->getPasswordResetByToken($token);
+    }
+
+    public function updateUserPassword($user,$password)
+    {
+        return $this->userRepository->updateUserPassword($user,$password);
+    }
 
 
 }
