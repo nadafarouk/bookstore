@@ -10,6 +10,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use App\Exceptions\Book\BookNotFoundException;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use App\traits\ResponseHandler;
+use App\Events\ExceptionThrown;
 class Handler extends ExceptionHandler
 {
     use ResponseHandler;
@@ -69,6 +70,7 @@ class Handler extends ExceptionHandler
                 return $this->generateUnauthorizedResponse();
                 break;
             default :
+                event(new ExceptionThrown());
                 return parent::render($request, $exception);
         }
     }

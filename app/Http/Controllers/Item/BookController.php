@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Item;
 
+use App\Events\ExceptionThrown;
 use App\Http\Requests\Book\UpdateBookRequest;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Book\BookServiceInterface;
 use App\Http\Requests\Book\StoreBookRequest;
+
 class BookController extends Controller
 {
     protected $bookService;
