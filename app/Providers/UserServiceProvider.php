@@ -3,9 +3,8 @@
 namespace App\Providers;
 
 use App\Http\Controllers\User\UserController;
-use App\Services\User\UserControllerService;
 use App\Services\User\UserService;
-use App\Services\User\UserServiceInterface;
+use App\Services\User\Interfaces\UserServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class UserServiceProvider extends ServiceProvider
@@ -18,14 +17,8 @@ class UserServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('App\Repositories\User\UserRepositoryInterface', 'App\Repositories\User\UserRepository');
+        $this->app->bind(UserServiceInterface::class, UserService::class);
 
-        $this->app->when(UserController::class)
-            ->needs(UserServiceInterface::class)
-            ->give(UserControllerService::class);
-
-        $this->app->when(UserControllerService::class)
-            ->needs(UserServiceInterface::class)
-            ->give(UserService::class);
     }
 
     /**

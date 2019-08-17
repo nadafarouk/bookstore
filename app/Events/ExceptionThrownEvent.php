@@ -12,7 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Exception;
 
 
-class ExceptionThrown
+class ExceptionThrownEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

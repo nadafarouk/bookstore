@@ -2,12 +2,8 @@
 
 namespace App\Exceptions\User;
 
-use App\traits\ResponseHandler;
-use Exception;
-
-class InvalidUserToken extends Exception
+class InvalidUserToken extends UserException
 {
-    use ResponseHandler;
     private $responseCode = 403;
 
     public function render($request)

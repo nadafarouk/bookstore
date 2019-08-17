@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Book;
+namespace App\Http\Requests\User;
 
-use App\Rules\AuthorExists;
-use App\Rules\LanguageExists;
+use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBookRequest extends BookRequest
+class UpdatePasswordRequest extends UserRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +24,8 @@ class UpdateBookRequest extends BookRequest
     public function rules()
     {
         return [
-            'author'=> ['integer', new AuthorExists ],
-            'language'=> ['integer', new LanguageExists ],
-            'title'=>'string',
-            'description'=>'string',
-            'isbn'=>'string',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|confirmed'
         ];
     }
 }

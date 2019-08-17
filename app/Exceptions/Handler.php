@@ -2,15 +2,12 @@
 
 namespace App\Exceptions;
 
-use App\Exceptions\Book\BookNotDeletedException;
-use App\Exceptions\User\InvalidUserToken;
-use App\Exceptions\User\UserNotCreatedException;
+
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use App\Exceptions\Book\BookNotFoundException;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use App\traits\ResponseHandler;
-use App\Events\ExceptionThrown;
+use App\Events\ExceptionThrownEvent;
 class Handler extends ExceptionHandler
 {
     use ResponseHandler;
@@ -54,23 +51,14 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         switch ($exception){
-            case $exception instanceof BookNotFoundException:
-                return $exception->render($request);
-                break;
-            case  $exception instanceof BookNotDeletedException:
-                return $exception->render($request);
-                break;
-            case  $exception instanceof UserNotCreatedException:
-                return $exception->render($request);
-                break;
-            case  $exception instanceof InvalidUserToken:
+            case $exception instanceof AppDefinedException:
                 return $exception->render($request);
                 break;
             case $exception instanceof UnauthorizedException:
                 return $this->generateUnauthorizedResponse();
                 break;
             default :
-                event(new ExceptionThrown());
+                event(new ExceptionThrownEvent());
                 return parent::render($request, $exception);
         }
     }

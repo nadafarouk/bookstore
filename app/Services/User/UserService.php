@@ -4,57 +4,97 @@
 namespace App\Services\User;
 
 
+use App\Exceptions\User\InvalidUserToken;
+use App\Exceptions\User\UserNotCreatedException;
+use App\Mail\ConfirmUserEmail;
+use App\Mail\PasswordResetMail;
+use App\Mail\WelcomeUserEmail;
 use App\Repositories\User\UserRepositoryInterface;
-use Carbon\Carbon;
+use App\Services\User\Interfaces\UserServiceInterface;
+use Illuminate\Auth\AuthenticationException;
+use App\traits\ResponseHandler;
+use App\Services\MailService;
+use Illuminate\Support\Str;
 
 class UserService implements UserServiceInterface
 {
-    protected $userRepository;
-    public function __construct(UserRepositoryInterface $userRepository)
+    use ResponseHandler;
+
+    protected $userRepository, $mailService ;
+    public function __construct(UserRepositoryInterface $userRepository,MailService $mailService)
     {
         $this->userRepository = $userRepository;
+        $this->mailService=$mailService;
     }
 
     public function createUser($name,$email,$password){
-        $activationToken = str_random(100);
-        $password = bcrypt($password);
-        return $this->userRepository->createUser($name,$email,$password,$activationToken);
+
+        $activationToken = $this->generateRandomToken();
+        $user = $this->userRepository->createUser($name,$email,
+                                                    $this->encryptPassword($password),$activationToken);
+
+        if(!$user)
+        {
+            throw new UserNotCreatedException ;
+        }
+
+        $this->mailService->sendUserMail($user, new ConfirmUserEmail($user));
+        return $this->generateEmailSentResponse();
     }
 
-    public function createToken($user){
+    public function activateUserAccount($activationToken){
+        $user = $this->userRepository->getUserByActivationToken($activationToken);
 
-    }
-    public function authenticateUser($email,$password){
-        return $this->userRepository->authenticateUser($email,$password);
+        if(!$user)
+        {
+            throw new InvalidUserToken ;
+        }
+
+        $this->userRepository->activateUserAccount($user);
+        $this->mailService->sendUserMail($user, new WelcomeUserEmail());
+        return $this->generateEmailSentResponse();
     }
 
-    public function getUserByEmail($email)
+    public function sendPasswordReset($email){
+        $user=$this->userRepository->getUserByEmail($email);
+
+        if(!$user)
+        {
+            throw new AuthenticationException ;
+        }
+        $this->mailService->sendUserMail($user, new PasswordResetMail($this->userRepository->createPasswordReset($email)));
+        return $this->generateEmailSentResponse();
+    }
+
+    public function verifyPasswordResetToken($passwordResetToken)
     {
-        return $this->userRepository->getUserByEmail($email);
+        $passwordReset=$this->userRepository->getPasswordResetByToken($passwordResetToken);
+
+        if(!$passwordReset)
+        {
+            throw new InvalidUserToken ;
+        }
+        return $passwordReset;
     }
 
-    public function getUserByActivationToken($token){
-        return $this->userRepository->getUserByActivationToken($token);
-    }
-
-    public function activateUserAccount($user)
+    public function resetUserPassword($email,$password,$passwordResetToken)
     {
-        return $this->userRepository->activateUserAccount($user);
+        $passwordReset=$this->verifyPasswordResetToken($passwordResetToken);
+
+        if (!$passwordReset)
+        {
+            throw new InvalidUserToken ;
+        }
+        $this->userRepository->updateUserPasswordByEmail($email,$this->encryptPassword($password));
+        return $this->generateResponse(['success'=>'password updated successfully'],200);
+
     }
 
-    public function createPasswordReset($email){
-        return $this->userRepository->createPasswordReset($email);
+    private function generateRandomToken(){
+        return Str::random(10);
     }
 
-    public function verifyPasswordResetToken($token)
-    {
-        return $this->userRepository->getPasswordResetByToken($token);
+    private function encryptPassword($password){
+        return encrypt($password);
     }
-
-    public function updateUserPassword($user,$password)
-    {
-        return $this->userRepository->updateUserPassword($user,$password);
-    }
-
-
 }

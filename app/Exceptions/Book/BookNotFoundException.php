@@ -2,12 +2,9 @@
 
 namespace App\Exceptions\Book;
 
-use Exception;
-use App\traits\ResponseHandler;
 
-class BookNotFoundException extends Exception
+class BookNotFoundException extends BookException
 {
-    use ResponseHandler;
     private $responseCode = 404;
 
     public function render($request)

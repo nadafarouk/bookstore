@@ -18,8 +18,8 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        'App\Events\ExceptionThrown'=>[
-            'App\Listeners\ExceptionThrownLogger',
+        'App\Events\ExceptionThrownEvent'=>[
+            'App\Listeners\ExceptionThrownLoggerListener',
         ]
     ];
 

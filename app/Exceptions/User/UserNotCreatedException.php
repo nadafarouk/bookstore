@@ -2,12 +2,10 @@
 
 namespace App\Exceptions\User;
 
-use Exception;
-use App\traits\ResponseHandler;
 
-class UserNotCreatedException extends Exception
+class UserNotCreatedException extends UserException
 {
-    use ResponseHandler;
+
     private $responseCode = 403;
 
     public function render($request)

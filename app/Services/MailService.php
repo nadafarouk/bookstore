@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\User;
+namespace App\Services;
 
 
 use Illuminate\Support\Facades\Mail;

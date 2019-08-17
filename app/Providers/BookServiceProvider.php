@@ -3,10 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Services\Book\BookServiceInterface;
-use App\Services\Book\BookControllerService;
+use App\Services\Book\Interfaces\BookServiceInterface;
 use App\Services\Book\BookService;
-use App\Http\Controllers\Item\BookController;
+use App\Repositories\Book\Interfaces\BookRepositoryInterface;
+use App\Repositories\Book\BookRepository;
+
 class BookServiceProvider extends ServiceProvider
 {
     /**
@@ -16,15 +17,10 @@ class BookServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('App\Repositories\Book\BookRepositoryInterface', 'App\Repositories\Book\BookRepository');
+        $this->app->bind(BookRepositoryInterface::class, BookRepository::class);
 
-        $this->app->when(BookController::class)
-            ->needs(BookServiceInterface::class)
-            ->give(BookControllerService::class);
+        $this->app->bind(BookServiceInterface::class , BookService::class);
 
-        $this->app->when(BookControllerService::class)
-            ->needs(BookServiceInterface::class)
-            ->give(BookService::class);
     }
 
     /**

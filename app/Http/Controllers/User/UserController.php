@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Requests\user\CreateTokenRequest;
-use App\Http\Requests\user\CreateUserRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Requests\User\PasswordResetTokenRequest;
+use App\Http\Requests\User\UpdatePasswordRequest;
 use App\Http\Controllers\Controller;
-use App\Services\User\UserServiceInterface;
+use App\Http\Requests\User\UserRequest;
+use App\Services\User\Interfaces\UserServiceInterface;
 
 class UserController extends Controller
 {
@@ -14,30 +15,30 @@ class UserController extends Controller
 
     public function __construct(UserServiceInterface $userService)
     {
-        $this->userService=$userService;
+        $this->userService = $userService;
     }
 
     public function createUser(CreateUserRequest $request){
-        return $this->userService->createUser($request['name'],$request['email'],$request['password']);
+        return $this->userService->createUser($request['name'] , $request['email'] , $request['password']);
     }
 
-    public function verifyUser($token)
+    public function activateUser(UserRequest $request, $activationToken)
     {
-        return $this->userService->activateUserAccount($token);
+        return $this->userService->activateUserAccount($activationToken);
     }
 
-    public function requestPasswordReset(Request $request)
+    public function requestPasswordReset(PasswordResetTokenRequest $request)
     {
         return $this->userService->sendPasswordReset($request['email']);
     }
 
-    public function verifyPasswordResetToken($token)
+    public function verifyPasswordResetToken(UserRequest $request, $passwordResetToken)
     {
-        return $this->userService->verifyPasswordResetToken($token);
+        return $this->userService->verifyPasswordResetToken($passwordResetToken);
     }
 
-    public function resetPassword(Request $request,$token){
-        return $this->userService->resetUserPassword($request['email'],$request['password'],$token);
+    public function resetPassword(UpdatePasswordRequest $request,$passwordResetToken){
+        return $this->userService->resetUserPassword($request['email'],$request['password'],$passwordResetToken);
     }
 
 }

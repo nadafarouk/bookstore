@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Book;
+namespace App\Http\Requests\User;
 
-use App\Rules\AuthorExists;
-use App\Rules\LanguageExists;
+use App\Http\Requests\AppDefinedRequest;
 
-class UpdateBookRequest extends BookRequest
+class UserRequest extends AppDefinedRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +24,7 @@ class UpdateBookRequest extends BookRequest
     public function rules()
     {
         return [
-            'author'=> ['integer', new AuthorExists ],
-            'language'=> ['integer', new LanguageExists ],
-            'title'=>'string',
-            'description'=>'string',
-            'isbn'=>'string',
+
         ];
     }
 }

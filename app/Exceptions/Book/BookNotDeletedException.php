@@ -2,12 +2,8 @@
 
 namespace App\Exceptions\Book;
 
-use App\traits\ResponseHandler;
-use Exception;
-
-class BookNotDeletedException extends Exception
+class BookNotDeletedException extends BookException
 {
-    use ResponseHandler;
     private $responseCode = 409;
 
     public function render($request)

@@ -5,7 +5,7 @@ Hello <i></i>,
 
 
 <div>
-    <p><a href="{{url('api/users/verify', $user['activation_token'])}}">Verify Email</a></p>
+    <p><a href="{{url('api/users/activate', $user['activation_token'])}}">Verify Email</a></p>
 
 </div>
 

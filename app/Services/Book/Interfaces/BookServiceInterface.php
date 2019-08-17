@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\Repositories\Book;
+namespace App\Services\Book\Interfaces;
 
 
-interface BookRepositoryInterface
+interface BookServiceInterface
 {
-    public function getAllBooks();
+    public function  getAllBooks();
     public function getBookById($id);
     public function createNewBook($title,$isbn,$authorId,$description,$language);
     public function deleteBook($book);

@@ -29,12 +29,12 @@ class UserRepository implements UserRepositoryInterface
         return User::where('id',$id)->first();
     }
 
-    public function getUserByActivationToken($token){
-        return User::where('activation_token',$token)->first();
+    public function getUserByActivationToken($activationToken){
+        return User::where('activation_token',$activationToken)->first();
     }
 
-    public function getPasswordResetByToken($token){
-        return PasswordReset::where('token',$token)->first();
+    public function getPasswordResetByToken($passwordResetToken){
+        return PasswordReset::where('token',$passwordResetToken)->first();
     }
 
     public function createPasswordReset($email)
@@ -50,11 +50,12 @@ class UserRepository implements UserRepositoryInterface
         return $user;
     }
 
-    public function updateUserPassword($user,$password)
+    public function updateUserPasswordByEmail($email,$password)
     {
-        $password=bcrypt($password);
-        $user->password=$password;
-        $user->save;
-        return $user;
+        User::where('email',$email)->update(
+            [
+                'password'=> $password,
+            ]);
+        return true;
     }
 }

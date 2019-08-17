@@ -12,7 +12,7 @@ class PermissionTableSeeder extends Seeder
      */
     public function run()
     {
-        $availablePermission=['create','edit','delete','update'];
+        $availablePermission=['read','write','delete','update'];
 
         for ($i=0; $i<4; $i++){
             Permission::create([

@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\ExceptionThrown;
+use App\Events\ExceptionThrownEvent;
 use App\Models\Language;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 
-class ExceptionThrownLogger implements ShouldQueue
+class ExceptionThrownLoggerListener implements ShouldQueue
 {
 
     /**
@@ -24,10 +24,10 @@ class ExceptionThrownLogger implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  ExceptionThrown  $event
+     * @param  ExceptionThrownEvent  $event
      * @return void
      */
-    public function handle(ExceptionThrown $event)
+    public function handle(ExceptionThrownEvent $event)
     {
         Log::debug("unexpected error has occurred");
     }

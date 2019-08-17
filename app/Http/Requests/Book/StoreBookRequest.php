@@ -3,9 +3,9 @@
 namespace App\Http\Requests\Book;
 
 use App\Rules\LanguageExists;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\AuthorExists;
-class StoreBookRequest extends FormRequest
+
+class StoreBookRequest extends BookRequest
 {
     /**
      * Determine if the user is authorized to make this request.

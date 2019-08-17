@@ -13,29 +13,40 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::post('users', 'User\UserController@createUser');
-Route::get('users/verify/{token}','User\UserController@verifyUser');
+Route::prefix('users')->group( function (){
 
-
-
-/*
- * Password Reset routes
- * **/
-
-Route::post('users/password','User\UserController@requestPasswordReset');
-Route::get('users/password/{token}','User\UserController@verifyPasswordResetToken');
-Route::post('users/password/{token}','User\UserController@resetPassword');
-
-
-Route::group(['middleware' => 'auth:api'], function () {
+    Route::post('', 'User\UserController@createUser');
+    Route::get('activate/{activationToken}','User\UserController@activateUser');
     /*
-     * Book CRUD routes
-     */
-    Route::get('books','Item\BookController@index')->middleware('permission:read');
-    Route::get('books/{id}','Item\BookController@show')->middleware('permission:read');
-    Route::post('books','Item\BookController@store')->middleware('permission:write');
-    Route::delete('books/{id}','Item\BookController@delete')->middleware('permission:delete');
-    Route::post('books/{id}','Item\BookController@update')->middleware('permission:update');
+     * Password Reset routes
+     * **/
+    Route::post('password','User\UserController@requestPasswordReset');
+    Route::get('password/{passwordResetToken}','User\UserController@verifyPasswordResetToken');
+    Route::post('password/{passwordResetToken}','User\UserController@resetPassword');
+
+});
+/*
+* Book CRUD routes
+*/
+
+Route::prefix('books')->group( function () {
+
+    Route::middleware(['permission:read','auth:api'])->group(function () {
+        Route::get('','Item\BookController@index');
+        Route::get('{bookId}','Item\BookController@show');
+    });
+
+    Route::middleware(['permission:write','auth:api'])->group(function () {
+        Route::post('','Item\BookController@create');
+    });
+
+    Route::middleware(['permission:delete','auth:api'])->group(function () {
+        Route::delete('{bookId}','Item\BookController@delete');
+    });
+
+    Route::middleware(['permission:update','auth:api'])->group(function () {
+        Route::post('{bookId}','Item\BookController@update');
+    });
 
 });
 

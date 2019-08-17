@@ -4,7 +4,10 @@
 namespace App\Services\Book;
 
 
-use App\Repositories\Book\BookRepositoryInterface;
+use App\Exceptions\Book\BookNotDeletedException;
+use App\Exceptions\Book\BookNotFoundException;
+use App\Services\Book\Interfaces\BookServiceInterface;
+use App\Repositories\Book\Interfaces\BookRepositoryInterface;
 
 class BookService implements BookServiceInterface
 {
@@ -14,24 +17,43 @@ class BookService implements BookServiceInterface
         $this->bookRepository=$bookRepository;
     }
     public function getAllBooks(){
-        return $this->bookRepository->getAllBooks();
+        $books = $this->bookRepository->getAllBooks();
+        if(!$books){
+            throw new BookNotFoundException ;
+        }
+        return $books;
     }
 
-    public function getBookById($id)
+    public function getBookById($bookId)
     {
-        return $this->bookRepository->getBookById($id);
+        $book = $this->bookRepository->getBookById($bookId);
+        if(!$book){
+            throw new BookNotFoundException ;
+        }
+        return $book;
     }
 
-    public function createNewBook($title,$isbn,$authorId,$description,$language)
+    public function createNewBook($title,$isbn,$authorId,$description,$languageId)
     {
-        return $this->bookRepository->createNewBook($title,$isbn,$authorId,$description,$language);
+        $book=$this->bookRepository->createNewBook($title,$isbn,$authorId,$description,$languageId);
+        if($book){
+            return $book;
+        }
     }
 
-    public function updateBook($id,$title,$isbn,$authorId,$description,$language)
+    public function updateBook($bookId,$title,$isbn,$authorId,$description,$languageId)
     {
-        return $this->bookRepository->updateBook($id,$title,$isbn,$authorId,$description,$language);
+        $book=$this->bookRepository->updateBook($bookId,$title,$isbn,$authorId,$description,$languageId);
+        if($book){
+            return $book;
+        }
     }
-    public function deleteBook($id){
-        return $this->bookRepository->deleteBook($id);
+
+    public function deleteBook($bookId)
+    {
+        if(!$this->bookRepository->deleteBook($bookId))
+        {
+            throw new BookNotDeletedException ;
+        }
     }
 }
