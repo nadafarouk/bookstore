@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 
+use App\Services\ResponseService;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Spatie\Permission\Exceptions\UnauthorizedException;
@@ -48,11 +49,11 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Exception $exception )
     {
         switch ($exception){
             case $exception instanceof AppDefinedException:
-                return $exception->render($request);
+                return $exception->generateExceptionResponse($exception->getResponseCode(), $exception->getResponseMessage());
                 break;
             case $exception instanceof UnauthorizedException:
                 return $this->generateUnauthorizedResponse();

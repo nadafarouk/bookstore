@@ -4,15 +4,19 @@ namespace App\Exceptions\Book;
 
 class BookNotDeletedException extends BookException
 {
-    private $responseCode = 409;
+    private $responseCode = 404;
 
     public function render($request)
     {
-        return $this->generateResponse($this->defineResponseMessage(),$this->responseCode);
+
     }
-    private function defineResponseMessage(){
+    public function getResponseMessage(){
         return [
             'error'=>'book not deleted'
         ];
+    }
+    public function getResponseCode()
+    {
+        return $this->responseCode;
     }
 }

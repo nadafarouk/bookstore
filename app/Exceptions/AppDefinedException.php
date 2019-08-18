@@ -2,13 +2,31 @@
 
 namespace App\Exceptions;
 
+use App\Services\ResponseService;
 use Exception;
 use App\traits\ResponseHandler;
 
 class AppDefinedException extends Exception
 {
     use ResponseHandler;
-    public function render($request){
 
+    private $responseCode = null , $responseMessage = null ;
+    public function render($request)
+    {
+
+    }
+
+    public function getResponseCode(){
+        return $this->responseCode;
+    }
+
+    public function getResponseMessage(){
+        return $this->responseMessage;
+    }
+
+    public function generateExceptionResponse($responseCode, $responseMessage)
+    {
+        $responseService = new ResponseService ;
+        return $responseService->generateErrorResponse($responseCode,$responseMessage);
     }
 }

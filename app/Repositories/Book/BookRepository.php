@@ -15,7 +15,7 @@ class BookRepository implements BookRepositoryInterface
 
     public function getBookById($id)
     {
-        return Book::find($id);
+        return Book::where('id',$id)->first();
     }
 
     public function createNewBook($title,$isbn,$authorId,$description,$languageId)

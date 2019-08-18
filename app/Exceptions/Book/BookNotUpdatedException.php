@@ -3,7 +3,8 @@
 namespace App\Exceptions\Book;
 
 
-class BookNotFoundException extends BookException
+
+class BookNotUpdatedException extends BookException
 {
     private $responseCode = 404;
 
@@ -11,16 +12,13 @@ class BookNotFoundException extends BookException
     {
 
     }
-
     public function getResponseMessage(){
         return [
-            'error'=>'book not found'
+            'error'=>'book not updated'
         ];
     }
-
     public function getResponseCode()
     {
         return $this->responseCode;
     }
-
 }

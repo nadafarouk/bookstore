@@ -179,9 +179,15 @@ return [
         /*
          * App customized providers
          * **/
-        Laravel\Passport\PassportServiceProvider::class,
         App\Providers\BookServiceProvider::class,
         App\Providers\UserServiceProvider::class,
+        App\Providers\ResponseServiceProvider::class,
+
+
+        /*
+         *  Packages used by app providers
+         * **/
+        Laravel\Passport\PassportServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         ],
 

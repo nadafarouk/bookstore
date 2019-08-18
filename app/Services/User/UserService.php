@@ -39,7 +39,6 @@ class UserService implements UserServiceInterface
         }
 
         $this->mailService->sendUserMail($user, new ConfirmUserEmail($user));
-        return $this->generateEmailSentResponse();
     }
 
     public function activateUserAccount($activationToken){
@@ -52,7 +51,6 @@ class UserService implements UserServiceInterface
 
         $this->userRepository->activateUserAccount($user);
         $this->mailService->sendUserMail($user, new WelcomeUserEmail());
-        return $this->generateEmailSentResponse();
     }
 
     public function sendPasswordReset($email){
@@ -63,7 +61,6 @@ class UserService implements UserServiceInterface
             throw new AuthenticationException ;
         }
         $this->mailService->sendUserMail($user, new PasswordResetMail($this->userRepository->createPasswordReset($email)));
-        return $this->generateEmailSentResponse();
     }
 
     public function verifyPasswordResetToken($passwordResetToken)
@@ -86,8 +83,6 @@ class UserService implements UserServiceInterface
             throw new InvalidUserToken ;
         }
         $this->userRepository->updateUserPasswordByEmail($email,$this->encryptPassword($password));
-        return $this->generateResponse(['success'=>'password updated successfully'],200);
-
     }
 
     private function generateRandomToken(){

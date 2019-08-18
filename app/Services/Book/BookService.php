@@ -4,8 +4,10 @@
 namespace App\Services\Book;
 
 
+use App\Exceptions\Book\BookNotCreatedException;
 use App\Exceptions\Book\BookNotDeletedException;
 use App\Exceptions\Book\BookNotFoundException;
+use App\Exceptions\Book\BookNotUpdatedException;
 use App\Services\Book\Interfaces\BookServiceInterface;
 use App\Repositories\Book\Interfaces\BookRepositoryInterface;
 
@@ -33,20 +35,22 @@ class BookService implements BookServiceInterface
         return $book;
     }
 
-    public function createNewBook($title,$isbn,$authorId,$description,$languageId)
+    public function createNewBook($title, $isbn, $authorId, $description, $languageId)
     {
-        $book=$this->bookRepository->createNewBook($title,$isbn,$authorId,$description,$languageId);
-        if($book){
-            return $book;
+        $book=$this->bookRepository->createNewBook($title, $isbn, $authorId, $description, $languageId);
+        if(!$book){
+            throw new BookNotCreatedException  ;
         }
+        return $book;
     }
 
     public function updateBook($bookId,$title,$isbn,$authorId,$description,$languageId)
     {
-        $book=$this->bookRepository->updateBook($bookId,$title,$isbn,$authorId,$description,$languageId);
-        if($book){
-            return $book;
+        $book=$this->bookRepository->updateBook($bookId, $title, $isbn, $authorId, $description, $languageId);
+        if(!$book){
+            throw new BookNotUpdatedException ;
         }
+        return $book;
     }
 
     public function deleteBook($bookId)
