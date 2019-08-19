@@ -62,4 +62,10 @@ class UserController extends Controller
             UserResponseConstant::USER_SUCCESS_CUSTOM_RESPONSE_MESSAGES['PASSWORD_RESET_DONE']);
     }
 
+    public function revokeAccessToken(UserRequest $request){
+        $this->userService->revokeAccessToken($request->user());
+        return $this->responseService->generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_OK,
+            UserResponseConstant::USER_SUCCESS_CUSTOM_RESPONSE_MESSAGES['USER_LOGGED_OUT']);
+}
+
 }

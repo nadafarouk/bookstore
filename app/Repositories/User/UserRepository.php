@@ -58,4 +58,10 @@ class UserRepository implements UserRepositoryInterface
             ]);
         return true;
     }
+
+    public function revokeAccessToken($user)
+    {
+        return $user->token()->revoke();
+
+    }
 }

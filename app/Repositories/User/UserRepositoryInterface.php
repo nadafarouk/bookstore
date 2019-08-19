@@ -14,4 +14,6 @@ interface UserRepositoryInterface
     public function createPasswordReset($email);
     public function activateUserAccount($user);
     public function updateUserPasswordByEmail($email,$password);
+    public function revokeAccessToken($user);
+
 }

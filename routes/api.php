@@ -17,6 +17,10 @@ Route::prefix('users')->group( function (){
 
     Route::post('', 'User\UserController@createUser');
     Route::get('activate/{activationToken}','User\UserController@activateUser');
+
+    Route::middleware(['auth:api'])->group(function () {
+        Route::get('revoke','User\UserController@revokeAccessToken');
+    });
     /*
      * Password Reset routes
      * **/

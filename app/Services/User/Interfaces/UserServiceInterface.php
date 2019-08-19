@@ -11,5 +11,6 @@ interface UserServiceInterface
     public function sendPasswordReset($email);
     public function verifyPasswordResetToken($passwordResetToken);
     public function resetUserPassword($email,$password,$passwordResetToken);
+    public function revokeAccessToken($user);
 
 }

@@ -4,14 +4,12 @@
 namespace App\Services\User;
 
 
-use App\Exceptions\User\InvalidUserToken;
 use App\Exceptions\User\UserException;
 use App\Mail\ConfirmUserEmail;
 use App\Mail\PasswordResetMail;
 use App\Mail\WelcomeUserEmail;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\User\Interfaces\UserServiceInterface;
-use Illuminate\Auth\AuthenticationException;
 use App\traits\ResponseHandler;
 use App\Services\MailService;
 use Illuminate\Support\Str;
@@ -83,6 +81,13 @@ class UserService implements UserServiceInterface
             throw new UserException('INVALID_TOKEN') ;
         }
         $this->userRepository->updateUserPasswordByEmail($email,$this->encryptPassword($password));
+    }
+
+    public function revokeAccessToken($user)
+    {
+        if(! $this->userRepository->revokeAccessToken($user)){
+            throw new UserException('TOKEN_NOT_REVOKED');
+        }
     }
 
     private function generateRandomToken(){
