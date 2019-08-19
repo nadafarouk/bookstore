@@ -27,7 +27,7 @@ class UserController extends Controller
         $this->userService->createUser($request['name'] , $request['email'] , $request['password']);
 
         return $this->responseService->generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_CREATED ,
-            UserResponseConstant::USER_SUCCESS_CUSTOM_RESPONSES['user_created']);
+            UserResponseConstant::USER_SUCCESS_CUSTOM_RESPONSE_MESSAGES['USER_CREATED']);
     }
 
     public function activateUser(UserRequest $request, $activationToken)
@@ -35,7 +35,7 @@ class UserController extends Controller
          $this->userService->activateUserAccount($activationToken);
 
          return $this->responseService->generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_OK,
-        UserResponseConstant::USER_SUCCESS_CUSTOM_RESPONSES['user_activated']);
+        UserResponseConstant::USER_SUCCESS_CUSTOM_RESPONSE_MESSAGES['USER_ACTIVATED']);
     }
 
     public function requestPasswordReset(PasswordResetTokenRequest $request)
@@ -43,7 +43,7 @@ class UserController extends Controller
         $this->userService->sendPasswordReset($request['email']);
 
         return $this->responseService->generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_CREATED,
-            UserResponseConstant::USER_SUCCESS_CUSTOM_RESPONSES['user_requested_password_reset']);
+            UserResponseConstant::USER_SUCCESS_CUSTOM_RESPONSE_MESSAGES['PASSWORD_RESET_REQUESTED']);
 
     }
 
@@ -59,7 +59,7 @@ class UserController extends Controller
         $this->userService->resetUserPassword($request['email'],$request['password'],$passwordResetToken);
 
         return $this->responseService->generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_OK,
-            UserResponseConstant::USER_SUCCESS_CUSTOM_RESPONSES['user_password_reset_done']);
+            UserResponseConstant::USER_SUCCESS_CUSTOM_RESPONSE_MESSAGES['PASSWORD_RESET_DONE']);
     }
 
 }

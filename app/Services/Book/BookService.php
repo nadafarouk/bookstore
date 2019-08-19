@@ -4,12 +4,9 @@
 namespace App\Services\Book;
 
 
-use App\Exceptions\Book\BookNotCreatedException;
-use App\Exceptions\Book\BookNotDeletedException;
-use App\Exceptions\Book\BookNotFoundException;
-use App\Exceptions\Book\BookNotUpdatedException;
 use App\Services\Book\Interfaces\BookServiceInterface;
 use App\Repositories\Book\Interfaces\BookRepositoryInterface;
+use App\Exceptions\Book\BookException;
 
 class BookService implements BookServiceInterface
 {
@@ -21,7 +18,7 @@ class BookService implements BookServiceInterface
     public function getAllBooks(){
         $books = $this->bookRepository->getAllBooks();
         if(!$books){
-            throw new BookNotFoundException ;
+            throw new BookException('BOOK_NOT_FOUND') ;
         }
         return $books;
     }
@@ -30,7 +27,7 @@ class BookService implements BookServiceInterface
     {
         $book = $this->bookRepository->getBookById($bookId);
         if(!$book){
-            throw new BookNotFoundException ;
+            throw new BookException('BOOK_NOT_FOUND') ;
         }
         return $book;
     }
@@ -39,7 +36,7 @@ class BookService implements BookServiceInterface
     {
         $book=$this->bookRepository->createNewBook($title, $isbn, $authorId, $description, $languageId);
         if(!$book){
-            throw new BookNotCreatedException  ;
+            throw new BookException('BOOK_NOT_CREATED')  ;
         }
         return $book;
     }
@@ -48,7 +45,7 @@ class BookService implements BookServiceInterface
     {
         $book=$this->bookRepository->updateBook($bookId, $title, $isbn, $authorId, $description, $languageId);
         if(!$book){
-            throw new BookNotUpdatedException ;
+            throw new BookException('BOOK_NOT_UPDATED') ;
         }
         return $book;
     }
@@ -57,7 +54,7 @@ class BookService implements BookServiceInterface
     {
         if(!$this->bookRepository->deleteBook($bookId))
         {
-            throw new BookNotDeletedException ;
+            throw new BookException('BOOK_NOT_DELETED') ;
         }
     }
 }

@@ -41,7 +41,7 @@ class BookController extends Controller
     public function delete(BookRequest $request, $bookId){
         $this->bookService->deleteBook($bookId);
         return $this->responseService->generateSuccessResponse(BookResponseConstant::HTTP_STATUS_SUCCESS_OK,
-                                                                BookResponseConstant::BOOK_SUCCESS_CUSTOM_RESPONSES['book_deleted']);
+                                                                BookResponseConstant::BOOK_SUCCESS_CUSTOM_RESPONSE_MESSAGES['BOOK_DELETED']);
 
     }
 }

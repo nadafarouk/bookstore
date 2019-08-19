@@ -5,7 +5,7 @@ namespace App\Services\User;
 
 
 use App\Exceptions\User\InvalidUserToken;
-use App\Exceptions\User\UserNotCreatedException;
+use App\Exceptions\User\UserException;
 use App\Mail\ConfirmUserEmail;
 use App\Mail\PasswordResetMail;
 use App\Mail\WelcomeUserEmail;
@@ -35,7 +35,7 @@ class UserService implements UserServiceInterface
 
         if(!$user)
         {
-            throw new UserNotCreatedException ;
+            throw new UserException('USER_NOT_CREATED') ;
         }
 
         $this->mailService->sendUserMail($user, new ConfirmUserEmail($user));
@@ -46,7 +46,7 @@ class UserService implements UserServiceInterface
 
         if(!$user)
         {
-            throw new InvalidUserToken ;
+            throw new UserException('INVALID_TOKEN') ;
         }
 
         $this->userRepository->activateUserAccount($user);
@@ -58,7 +58,7 @@ class UserService implements UserServiceInterface
 
         if(!$user)
         {
-            throw new AuthenticationException ;
+            throw new UserException('USER_NOT_FOUND') ;
         }
         $this->mailService->sendUserMail($user, new PasswordResetMail($this->userRepository->createPasswordReset($email)));
     }
@@ -69,7 +69,7 @@ class UserService implements UserServiceInterface
 
         if(!$passwordReset)
         {
-            throw new InvalidUserToken ;
+            throw new UserException('INVALID_TOKEN') ;
         }
         return $passwordReset;
     }
@@ -80,7 +80,7 @@ class UserService implements UserServiceInterface
 
         if (!$passwordReset)
         {
-            throw new InvalidUserToken ;
+            throw new UserException('INVALID_TOKEN') ;
         }
         $this->userRepository->updateUserPasswordByEmail($email,$this->encryptPassword($password));
     }
