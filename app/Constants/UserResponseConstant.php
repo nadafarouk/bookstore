@@ -21,6 +21,9 @@ class UserResponseConstant extends HttpResponseConstant
         'INVALID_TOKEN' => self::HTTP_STATUS_ERROR_FORBIDDEN,
         'USER_NOT_FOUND' => self::HTTP_STATUS_ERROR_NOT_FOUND,
         'TOKEN_NOT_REVOKED' => self::HTTP_STATUS_ERROR_NOT_FOUND,
+        'USER_UNAUTHORIZED' => self::HTTP_STATUS_ERROR_UNAUTHORIZED,
+        'USER_UNAUTHENTICATED' => self::HTTP_STATUS_ERROR_UNAUTHORIZED,
+        'USER_PASSWORD_NOT_UPDATED' => self::HTTP_STATUS_ERROR_FORBIDDEN,
     ];
 
     const USER_EXCEPTION_CUSTOM_RESPONSE_MESSAGES = [
@@ -28,6 +31,10 @@ class UserResponseConstant extends HttpResponseConstant
         'INVALID_TOKEN' => 'token is invalid',
         'USER_NOT_FOUND' => 'user was not found',
         'TOKEN_NOT_REVOKED' => 'user not logged out',
+        'USER_UNAUTHORIZED' => 'user unauthorized',
+        'USER_UNAUTHENTICATED' => 'user with wrong credentials',
+        'USER_PASSWORD_NOT_UPDATED' => 'password not updated',
+
     ];
 
 }

@@ -3,8 +3,11 @@
 namespace App\Exceptions;
 
 
+use App\Constants\UserResponseConstant;
+use App\Exceptions\User\UserException;
 use App\Services\ResponseService;
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use App\traits\ResponseHandler;
@@ -53,10 +56,14 @@ class Handler extends ExceptionHandler
     {
         switch ($exception){
             case $exception instanceof AppDefinedException:
-                return $exception->generateExceptionResponse($exception->getResponseCode(), $exception->getResponseMessage());
+                return ResponseService::generateErrorResponse($exception->getResponseCode(),
+                        $exception->getResponseMessage());
                 break;
             case $exception instanceof UnauthorizedException:
-                return $this->generateUnauthorizedResponse();
+                throw new UserException('USER_UNAUTHORIZED');
+                break;
+            case $exception instanceof AuthenticationException:
+                throw new UserException('USER_UNAUTHENTICATED');
                 break;
             default :
                 event(new ExceptionThrownEvent());

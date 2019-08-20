@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\Services\ResponseService;
 use Exception;
 use App\traits\ResponseHandler;
 
@@ -24,9 +23,4 @@ class AppDefinedException extends Exception
         return $this->responseMessage;
     }
 
-    public function generateExceptionResponse($responseCode, $responseMessage)
-    {
-        $responseService = new ResponseService ;
-        return $responseService->generateErrorResponse($responseCode,$responseMessage);
-    }
 }

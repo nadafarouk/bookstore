@@ -80,7 +80,11 @@ class UserService implements UserServiceInterface
         {
             throw new UserException('INVALID_TOKEN') ;
         }
-        $this->userRepository->updateUserPasswordByEmail($email,$this->encryptPassword($password));
+        if(!$this->userRepository->updateUserPasswordByEmail($email,$this->encryptPassword($password)))
+        {
+            throw new UserException('USER_PASSWORD_NOT_UPDATED');
+        }
+        $this->userRepository->revokePasswordResetToken($passwordReset);
     }
 
     public function revokeAccessToken($user)
@@ -91,10 +95,10 @@ class UserService implements UserServiceInterface
     }
 
     private function generateRandomToken(){
-        return Str::random(10);
+        return Str::random(100);
     }
 
     private function encryptPassword($password){
-        return encrypt($password);
+        return bcrypt($password);
     }
 }

@@ -52,16 +52,19 @@ class UserRepository implements UserRepositoryInterface
 
     public function updateUserPasswordByEmail($email,$password)
     {
-        User::where('email',$email)->update(
+        return User::where('email',$email)->update(
             [
                 'password'=> $password,
             ]);
-        return true;
     }
 
     public function revokeAccessToken($user)
     {
         return $user->token()->revoke();
-
     }
+
+    public function revokePasswordResetToken($passwordReset){
+        return $passwordReset->delete();
+    }
+
 }

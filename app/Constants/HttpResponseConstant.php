@@ -12,6 +12,8 @@ class HttpResponseConstant
 
     const HTTP_STATUS_ERROR_NOT_FOUND = 404 ;
     const HTTP_STATUS_ERROR_FORBIDDEN = 403 ;
+    const HTTP_STATUS_ERROR_UNAUTHORIZED = 401;
+    const HTTP_STATUS_ERROR_BAD_REQUEST = 400;
 
     const API_ERROR_STATUS = 2;
 

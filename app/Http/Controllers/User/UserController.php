@@ -14,19 +14,18 @@ use App\Constants\UserResponseConstant;
 
 class UserController extends Controller
 {
-    protected $userService , $responseService;
+    protected $userService ;
 
-    public function __construct(UserServiceInterface $userService, ResponseService $responseService)
+    public function __construct(UserServiceInterface $userService)
     {
         $this->userService = $userService ;
-        $this->responseService = $responseService ;
     }
 
     public function createUser(CreateUserRequest $request)
     {
         $this->userService->createUser($request['name'] , $request['email'] , $request['password']);
 
-        return $this->responseService->generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_CREATED ,
+        return ResponseService::generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_CREATED ,
             UserResponseConstant::USER_SUCCESS_CUSTOM_RESPONSE_MESSAGES['USER_CREATED']);
     }
 
@@ -34,7 +33,7 @@ class UserController extends Controller
     {
          $this->userService->activateUserAccount($activationToken);
 
-         return $this->responseService->generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_OK,
+         return ResponseService::generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_OK,
         UserResponseConstant::USER_SUCCESS_CUSTOM_RESPONSE_MESSAGES['USER_ACTIVATED']);
     }
 
@@ -42,7 +41,7 @@ class UserController extends Controller
     {
         $this->userService->sendPasswordReset($request['email']);
 
-        return $this->responseService->generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_CREATED,
+        return ResponseService::generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_CREATED,
             UserResponseConstant::USER_SUCCESS_CUSTOM_RESPONSE_MESSAGES['PASSWORD_RESET_REQUESTED']);
 
     }
@@ -51,20 +50,20 @@ class UserController extends Controller
     {
         $passwordReset = $this->userService->verifyPasswordResetToken($passwordResetToken);
 
-        return $this->responseService->generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_OK,
+        return ResponseService::generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_OK,
             $passwordReset);
     }
 
     public function resetPassword(UpdatePasswordRequest $request,$passwordResetToken){
         $this->userService->resetUserPassword($request['email'],$request['password'],$passwordResetToken);
 
-        return $this->responseService->generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_OK,
+        return ResponseService::generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_OK,
             UserResponseConstant::USER_SUCCESS_CUSTOM_RESPONSE_MESSAGES['PASSWORD_RESET_DONE']);
     }
 
     public function revokeAccessToken(UserRequest $request){
         $this->userService->revokeAccessToken($request->user());
-        return $this->responseService->generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_OK,
+        return ResponseService::generateSuccessResponse(UserResponseConstant::HTTP_STATUS_SUCCESS_OK,
             UserResponseConstant::USER_SUCCESS_CUSTOM_RESPONSE_MESSAGES['USER_LOGGED_OUT']);
 }
 

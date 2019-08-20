@@ -24,7 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('queue:work')->everyFiveMinutes()->withoutOverlapping();
+        $schedule->command('queue:work')->everyFiveMinutes()->withoutOverlapping();
+        $schedule->command('access-token:remove')->daily()->withoutOverlapping();
     }
 
     /**
