@@ -27,9 +27,9 @@ class StoreBookRequest extends BookRequest
         return [
             'author'=> ['required','integer', new AuthorExists ],
             'language'=> ['required','integer', new LanguageExists ],
-            'title'=>'required|string',
-            'description'=>'required|string',
-            'isbn'=>'required|string',
+            'title'=>'required|string|min:3',
+            'description'=>'required|string|min:5',
+            'isbn'=>'required|string|min:10',
         ];
     }
 }

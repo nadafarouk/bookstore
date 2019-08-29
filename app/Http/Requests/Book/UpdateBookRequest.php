@@ -27,9 +27,9 @@ class UpdateBookRequest extends BookRequest
         return [
             'author'=> ['integer', new AuthorExists ],
             'language'=> ['integer', new LanguageExists ],
-            'title'=>'string',
-            'description'=>'string',
-            'isbn'=>'string',
+            'title'=>'string|min:3',
+            'description'=>'string|min:5',
+            'isbn'=>'string|min:10',
         ];
     }
 }
