@@ -174,6 +174,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\HorizonServiceProvider::class,
+        App\Libraries\Horizon\HorizonServiceProvider::class,
+        
         App\Providers\RouteServiceProvider::class,
 
 

@@ -19,6 +19,7 @@ class ConfirmUserEmail extends Mailable implements ShouldQueue
      */
     public function __construct($user)
     {
+        $this->queue='confirmUser';
         $this->user=$user;
     }
 

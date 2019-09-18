@@ -19,6 +19,7 @@ class PasswordResetMail extends Mailable implements ShouldQueue
      */
     public function __construct($passwordReset)
     {
+        $this->queue='passwordReset';
         $this->passwordReset= $passwordReset;
     }
 

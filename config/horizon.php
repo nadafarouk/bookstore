@@ -155,9 +155,19 @@ return [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'simple',
-                'processes' => 3,
+                'processes' => 1,
                 'tries' => 3,
             ],
+            'supervisor-2' => [
+                'connection' => 'redis',
+                'queue' => ['passwordReset','confirmUser'],
+                'balance' => 'false',
+                // 'minProcesses' => 2,
+                // 'maxProcesses' => 6,
+                'processes' => 4,
+                'tries' => 3,
+            ],
+
         ],
     ],
 ];

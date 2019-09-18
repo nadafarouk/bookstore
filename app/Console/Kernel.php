@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     {
 //        $schedule->command('queue:work')->everyFiveMinutes()->withoutOverlapping();
 //        $schedule->command('access-token:remove')->daily()->withoutOverlapping();
+        $schedule->command('horizon:snapshot')->everyMinute();
     }
 
     /**
